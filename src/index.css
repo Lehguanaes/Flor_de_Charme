@@ -4,7 +4,7 @@
 
 :root {
   /* 🎨 Cores principais */
-  --cor-vermelho: #d22121;
+  --cor-vermelho: #c12020;
   --cor-vermelho-escuro: #7b1a1a;
   --cor-branco: #ffffff;
   --cor-cinza: #f3f4f6;
@@ -25,7 +25,6 @@
   /* 🔎 Tamanhos de fonte */
   --texto-normal: 16px;
   --texto-grande: 18px;
-  --texto-xgrande: 19px;
 }
 
 body {

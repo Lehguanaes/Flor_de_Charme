@@ -34,7 +34,7 @@
   text-decoration: none;
   font-family: var(--fonte-principal);
   font-weight: 600;
-  font-size: var(--texto-xgrande);
+  font-size: var(--texto-grande);
   transition: color 0.3s ease, transform 0.2s ease;
 }
 
@@ -145,8 +145,8 @@
   /* Ícones menores no mobile */
   .icones-container .info-icone,
   .icones-container .perfil-icone {
-    height: 28px;
-    width: 28px;
+    height: 25px;
+    width: 25px;
     margin-left: 8px;
   }
 
