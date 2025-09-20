@@ -1,7 +1,7 @@
 .footer {
   background-color: var(--cor-vermelho-escuro);
   text-align: center;
-  padding: 0.5rem 0;
+  padding: 0.7rem 0;
   box-shadow: 0 -1px 4px rgba(0,0,0,0.05);
 }
 
@@ -10,4 +10,6 @@
   font-weight: 300; /* fininho */
   font-size: var(--texto-pequeno);
   color: var(--cor-branco);
+  margin-left: 1px;
+  margin-right: 1px;
 }
