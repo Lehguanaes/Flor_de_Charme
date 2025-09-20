@@ -30,3 +30,17 @@ body {
   margin: 0;
   font-family: system-ui, sans-serif;
 }
+
+/* Faz o container ocupar toda a altura da tela */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Main ocupa o espaço restante entre navbar e footer */
+.main-content {
+  flex: 1;
+  padding: 1.5rem;
+  background-color: #fff;
+}

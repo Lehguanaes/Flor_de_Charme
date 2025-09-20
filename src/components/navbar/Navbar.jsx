@@ -3,9 +3,9 @@ import { Menu, X } from "lucide-react";
 import "./Navbar.css";
 
 // Importando a logo e ícones (desktop)
-import logo from "../assets/logo/logo_navbar.png";
-import perfil_icone from "../assets/icones/perfil_icone.png";
-import info_icone from "../assets/icones/info_icone.png";
+import logo from "../../assets/logo/logo_navbar.png";
+import perfil_icone from "../../assets/icones/perfil_icone.png";
+import info_icone from "../../assets/icones/info_icone.png";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
