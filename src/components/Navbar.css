@@ -15,7 +15,7 @@
 
 /* Logo colada na esquerda */
 .logo-container .logo {
-  height: 87px;
+  height: 70px;
   margin-left: 0;
 }
 
@@ -165,7 +165,7 @@
     background-color: var(--cor-branco);
     flex-direction: column;
     align-items: center; /* 🔻 centraliza no mobile também */
-    gap: var(--espaco-grande);
+    gap: var(--espaco-extra-grande);
     padding: var(--espaco-medio);
     padding-top: 80px;
     box-shadow: -2px 0 8px rgba(0,0,0,0.2);
