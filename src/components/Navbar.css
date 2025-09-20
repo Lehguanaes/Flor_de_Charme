@@ -19,7 +19,7 @@
   margin-left: 0;
 }
 
-/* Links centralizados no espaço restante */
+/* Links desktop centralizados */
 .links-container {
   flex: 1;
   display: flex;
@@ -27,7 +27,7 @@
   gap: var(--espaco-hiper-grande);
 }
 
-/* Links em vermelho com efeito animado */
+/* Links desktop */
 .nav-link {
   position: relative;
   color: var(--cor-vermelho);
@@ -62,15 +62,14 @@
   transform-origin: left;
 }
 
-/* Ícones grudados na direita */
+/* Ícones desktop */
 .icones-container {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 12px;
   margin-left: auto;
 }
 
-/* Info ícone e Perfil ícone */
 .icones-container .info-icone,
 .icones-container .perfil-icone {
   height: 25px;
@@ -86,7 +85,7 @@
   filter: brightness(0.8);
 }
 
-/* Botão do menu mobile */
+/* Botão mobile */
 .mobile-menu-button {
   display: none;
   width: 32px;
@@ -102,14 +101,14 @@
   color: var(--cor-vermelho-escuro);
 }
 
-/* Menu lateral direito */
+/* Menu mobile */
 .mobile-links {
   display: flex;
   flex-direction: column;
-  align-items: center; /* 🔻 centraliza os links no menu */
+  align-items: center; /* centraliza os links */
   gap: var(--espaco-medio);
   padding: var(--espaco-medio);
-  padding-top: 80px; /* 🔻 links começam mais embaixo */
+  padding-top: 80px; /* afasta do topo */
   position: fixed;
   top: 0;
   right: -260px;
@@ -121,9 +120,22 @@
   z-index: 1000;
 }
 
-.mobile-links a {
-  margin-top: 0;
-  text-align: center; /* 🔻 centraliza o texto */
+/* Links mobile com ícones */
+.mobile-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--fonte-principal);
+  font-weight: 600;
+  font-size: var(--texto-padrão);
+  color: var(--cor-vermelho-escuro); /* texto vermelho escuro */
+  text-decoration: none;
+}
+
+.mobile-link .material-symbols-outlined {
+  font-size: 24px;
+  vertical-align: middle;
+  color: var(--cor-vermelho); /* ícone vermelho */
 }
 
 /* Menu aberto */
@@ -142,7 +154,7 @@
     margin-left: 8px;
   }
 
-  /* Ícones menores no mobile */
+  /* Ícones desktop menores no mobile */
   .icones-container .info-icone,
   .icones-container .perfil-icone {
     height: 25px;
@@ -164,7 +176,7 @@
     height: 100%;
     background-color: var(--cor-branco);
     flex-direction: column;
-    align-items: center; /* 🔻 centraliza no mobile também */
+    align-items: center; /* centraliza no mobile também */
     gap: var(--espaco-extra-grande);
     padding: var(--espaco-medio);
     padding-top: 80px;
