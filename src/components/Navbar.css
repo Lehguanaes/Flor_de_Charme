@@ -73,8 +73,8 @@
 /* Info ícone e Perfil ícone */
 .icones-container .info-icone,
 .icones-container .perfil-icone {
-  height: 26px;
-  width: 26px;
+  height: 25px;
+  width: 25px;
   margin-left: 12px;
   cursor: pointer;
   transition: transform 0.2s ease, filter 0.3s ease;
