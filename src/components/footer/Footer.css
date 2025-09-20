@@ -1,15 +1,19 @@
 .footer {
+  position: fixed;      /* fixa no fundo da tela */
+  bottom: 0;
+  left: 0;
+  width: 100%;
   background-color: var(--cor-vermelho-escuro);
   text-align: center;
   padding: 0.7rem 0;
   box-shadow: 0 -1px 4px rgba(0,0,0,0.05);
+  z-index: 1100;        /* acima do menu mobile que tem z-index 1000 */
 }
 
 .footer-text {
   font-family: var(--fonte-principal);
-  font-weight: 300; /* fininho */
+  font-weight: 300;     /* fininho */
   font-size: var(--texto-pequeno);
   color: var(--cor-branco);
-  margin-left: 1px;
-  margin-right: 1px;
+  margin: 0 2px;
 }
