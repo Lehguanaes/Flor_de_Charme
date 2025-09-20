@@ -2,6 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* 🎨 Cores principais */
+  --cor-vermelho: #d22121;
+  --cor-vermelho-escuro: #7b1a1a;
+  --cor-branco: #ffffff;
+  --cor-cinza: #f3f4f6;
+  --cor-preto: #111111;
+
+
+  /* 🔠 Tipografia */
+  --fonte-principal: 'Libre Baskerville', serif;
+
+
+  /* 📏 Espaçamentos */
+  --espaco-pequeno: 8px;
+  --espaco-medio: 16px;
+  --espaco-grande: 24px;
+  --espaco-hiper-grande: 39px;
+
+  /* 🔎 Tamanhos de fonte */
+  --texto-normal: 16px;
+  --texto-grande: 18px;
+  --texto-xgrande: 19px;
+}
+
 body {
   margin: 0;
   font-family: system-ui, sans-serif;

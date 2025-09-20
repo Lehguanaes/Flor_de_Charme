@@ -1,0 +1,178 @@
+/* 🔻 Navbar */
+.navbar {
+  background-color: var(--cor-branco);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.nav-container {
+  width: 100%;
+  padding: var(--espaco-pequeno) var(--espaco-grande);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo colada na esquerda */
+.logo-container .logo {
+  height: 87px;
+  margin-left: 0;
+}
+
+/* Links centralizados no espaço restante */
+.links-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  gap: var(--espaco-hiper-grande);
+}
+
+/* Links em vermelho com efeito animado */
+.nav-link {
+  position: relative;
+  color: var(--cor-vermelho);
+  text-decoration: none;
+  font-family: var(--fonte-principal);
+  font-weight: 600;
+  font-size: var(--texto-xgrande);
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--cor-vermelho-escuro);
+  transform: translateY(-2px);
+}
+
+/* Sublinhado animado */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 2px;
+  background-color: var(--cor-vermelho-escuro);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Ícones grudados na direita */
+.icones-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+/* Info ícone e Perfil ícone */
+.icones-container .info-icone,
+.icones-container .perfil-icone {
+  height: 28px;
+  width: 28px;
+  margin-left: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.3s ease;
+}
+
+.icones-container .info-icone:hover,
+.icones-container .perfil-icone:hover {
+  transform: scale(1.1);
+  filter: brightness(0.8);
+}
+
+/* Botão do menu mobile */
+.mobile-menu-button {
+  display: none;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  position: relative;
+  z-index: 1001;
+  transition: all 0.3s ease;
+  color: var(--cor-vermelho-escuro);
+}
+
+.mobile-menu-button svg {
+  color: var(--cor-vermelho-escuro);
+}
+
+/* Menu lateral direito */
+.mobile-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 🔻 centraliza os links no menu */
+  gap: var(--espaco-medio);
+  padding: var(--espaco-medio);
+  padding-top: 80px; /* 🔻 links começam mais embaixo */
+  position: fixed;
+  top: 0;
+  right: -260px;
+  width: 260px;
+  height: 100%;
+  background-color: var(--cor-branco);
+  box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+  transition: right 0.3s ease;
+  z-index: 1000;
+}
+
+.mobile-links a {
+  margin-top: 0;
+  text-align: center; /* 🔻 centraliza o texto */
+}
+
+/* Menu aberto */
+.mobile-links.open {
+  right: 0;
+}
+
+/* Responsividade */
+@media (max-width: 860px) {
+  .links-container {
+    display: none;
+  }
+
+  .mobile-menu-button {
+    display: block;
+    margin-left: 8px;
+  }
+
+  /* Ícones menores no mobile */
+  .icones-container .info-icone,
+  .icones-container .perfil-icone {
+    height: 28px;
+    width: 28px;
+    margin-left: 8px;
+  }
+
+  /* Logo continua à esquerda */
+  .logo-container {
+    margin-right: auto;
+  }
+
+  /* Menu lateral fixo à direita */
+  .mobile-links {
+    display: flex;
+    position: fixed;
+    right: -180px;
+    width: 180px;
+    height: 100%;
+    background-color: var(--cor-branco);
+    flex-direction: column;
+    align-items: center; /* 🔻 centraliza no mobile também */
+    gap: var(--espaco-grande);
+    padding: var(--espaco-medio);
+    padding-top: 80px;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+    transition: right 0.3s ease;
+    z-index: 1000;
+  }
+  .mobile-links.open {
+    right: 0;
+  }
+}

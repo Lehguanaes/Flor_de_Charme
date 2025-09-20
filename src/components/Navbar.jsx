@@ -1,5 +1,11 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import "./Navbar.css";
+
+// Importando as Imagens
+import logo from "../assets/logo/logo_navbar.png";
+import perfil_icone from "../assets/icones/perfil_icone.png";
+import info_icone from "../assets/icones/info_icone.png";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -13,41 +19,50 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="bg-red-600 text-white shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          <div className="text-2xl font-bold">MinhaEmpresa</div>
-          <div className="hidden md:flex space-x-6">
-            {links.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="hover:text-gray-200 transition"
-              >
-                {link.name}
-              </a>
-            ))}
-          </div>
-          <div className="md:hidden">
-            <button onClick={() => setOpen(!open)} className="text-white">
-              {open ? <X size={28} /> : <Menu size={28} />}
-            </button>
-          </div>
+    <nav className="navbar">
+      <div className="nav-container">
+        {/* Logo */}
+        <div className="logo-container">
+          <img src={logo} alt="Logo" className="logo" />
         </div>
-      </div>
-      {open && (
-        <div className="md:hidden bg-red-700 px-4 pb-4 space-y-2">
+
+        {/* Links desktop */}
+        <div className="links-container">
           {links.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="block text-white hover:text-gray-200 transition"
-            >
+            <a key={link.name} href={link.href} className="nav-link">
               {link.name}
             </a>
           ))}
         </div>
-      )}
+
+        {/* Ícones (Info + Perfil) */}
+        <div className="icones-container">
+          <img src={info_icone} alt="Ícone Info" className="info-icone" />
+          <img src={perfil_icone} alt="Ícone Perfil" className="perfil-icone" />
+
+          {/* Botão Mobile */}
+          <button
+            className={`mobile-menu-button ${open ? "open" : ""}`}
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Links Mobile */}
+      <div className={`mobile-links ${open ? "open" : ""}`}>
+        {links.map((link) => (
+          <a
+            key={link.name}
+            href={link.href}
+            className="nav-link"
+            onClick={() => setOpen(false)} // fecha ao clicar
+          >
+            {link.name}
+          </a>
+        ))}
+      </div>
     </nav>
   );
 }
