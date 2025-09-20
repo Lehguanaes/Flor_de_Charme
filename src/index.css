@@ -23,8 +23,7 @@
   --espaco-extra-grande: 45px;
 
   /* 🔎 Tamanhos de fonte */
-  --texto-normal: 16px;
-  --texto-grande: 18px;
+  --texto-padrão: 16px;
 }
 
 body {

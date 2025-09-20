@@ -34,7 +34,7 @@
   text-decoration: none;
   font-family: var(--fonte-principal);
   font-weight: 600;
-  font-size: var(--texto-grande);
+  font-size: var(--texto-padrão);
   transition: color 0.3s ease, transform 0.2s ease;
 }
 
@@ -73,8 +73,8 @@
 /* Info ícone e Perfil ícone */
 .icones-container .info-icone,
 .icones-container .perfil-icone {
-  height: 28px;
-  width: 28px;
+  height: 26px;
+  width: 26px;
   margin-left: 12px;
   cursor: pointer;
   transition: transform 0.2s ease, filter 0.3s ease;
