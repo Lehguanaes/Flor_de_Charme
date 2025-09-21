@@ -16,7 +16,7 @@ export default function Navbar() {
     { name: "Produtos", href: "#", icon: "inventory_2" },
     { name: "Clientes", href: "#", icon: "people" },
     { name: "Veículos", href: "#", icon: "directions_car" },
-    { name: "Região", href: "#", icon: "distance" },
+    { name: "Regiões", href: "#", icon: "distance" },
   ];
 
   return (
