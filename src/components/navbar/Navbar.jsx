@@ -2,10 +2,8 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import "./Navbar.css";
 
-// Importando a logo e ícones (desktop)
+// Importando a logo
 import logo from "../../assets/logo/logo_navbar.png";
-import perfil_icone from "../../assets/icones/perfil_icone.png";
-import info_icone from "../../assets/icones/info_icone.png";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -38,8 +36,9 @@ export default function Navbar() {
 
         {/* Ícones desktop e botão mobile */}
         <div className="icones-container">
-          <img src={info_icone} alt="Ícone Info" className="info-icone" />
-          <img src={perfil_icone} alt="Ícone Perfil" className="perfil-icone" />
+          {/* Ícones vetoriais iguais ao mobile */}
+          <span className="material-symbols-outlined">info</span>
+          <span className="material-symbols-outlined">account_circle</span>
 
           <button
             className={`mobile-menu-button ${open ? "open" : ""}`}
