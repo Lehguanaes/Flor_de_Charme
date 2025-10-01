@@ -12,6 +12,7 @@ export default function NavbarPublica() {
     { name: "Login", href: "/Login", icon: "account_circle" },
   ];
 
+  
   return (
     <nav className="navbar">
       <div className="nav-container">
