@@ -1,0 +1,137 @@
+:root {
+  --cor-vermelho: #c12020;
+  --cor-fundo-card: #fff;
+  --cor-sombra-card: rgba(0, 0, 0, 0.1);
+  --fonte-principal: 'Arial', sans-serif;
+}
+
+body {
+  background-color: #f8f8f8;
+  margin: 0;
+  font-family: var(--fonte-principal);
+}
+
+.container {
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.fundadores {
+  margin-top: 2rem;
+}
+
+.subtitulo {
+  color: var(--cor-vermelho);
+  font-size: 2.2rem;
+  margin-bottom: 3rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.fotoGrupo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.fotoGrupoImg {
+  max-width: 450px;
+  width: 100%;
+  border-radius: 15px;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 10px var(--cor-sombra-card);
+  transition: transform 0.3s ease;
+}
+
+.fotoGrupoImg:hover {
+  transform: scale(1.03);
+}
+
+.fotoGrupoTexto {
+  text-align: center;
+  font-size: 1.05rem;
+  color: #555;
+  max-width: 700px;
+  line-height: 1.6;
+}
+
+.cardContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centraliza verticalmente e horizontalmente */
+  background-color: var(--cor-fundo-card);
+  border-radius: 15px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  box-shadow: 0 4px 15px var(--cor-sombra-card);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  max-width: 220px;
+}
+
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 25px var(--cor-sombra-card);
+}
+
+.cardImg {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.8rem;
+  border: 3px solid var(--cor-vermelho);
+  transition: transform 0.3s ease;
+}
+
+.cardImg:hover {
+  transform: scale(1.1);
+}
+
+.cardTitle {
+  color: var(--cor-vermelho);
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 0.1rem;
+}
+
+/* Responsividade adicional */
+@media (max-width: 768px) {
+  .fotoGrupoImg {
+    max-width: 300px;
+  }
+
+  .cardContainer {
+    gap: 1.5rem;
+  }
+
+  .card {
+    max-width: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .subtitulo {
+    font-size: 1.8rem;
+  }
+
+  .fotoGrupoTexto {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+
+  .cardImg {
+    width: 100px;
+    height: 100px;
+  }
+}

@@ -1,0 +1,128 @@
+.clientes {
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.clientes h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+/* Formulário */
+.form-cliente {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.inputs-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.inputs-form input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.botoes-form {
+  display: flex;
+  
+  gap: 10px;
+}
+
+/* Tabela */
+.tabela-clientes {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cabecalho-tabela {
+  display: table-row;
+  background-color: var(--rosa);
+  color: white;
+  font-weight: bold;
+}
+
+.cabecalho-tabela span,
+.linha-cliente span {
+  display: table-cell;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+
+.lista-clientes h2 { 
+    margin-bottom: -20px;
+}
+.linha-cliente {
+
+  display: table-row;
+}
+
+.linha-cliente:hover {
+  background-color: #f5f5f5;
+}
+
+/* Ações */
+.acoes {
+  display: table-cell;
+  padding: 8px;
+  display: flex;
+  gap: 5px;
+}
+
+.btn-visualizar, .btn-editar, .btn-excluir,
+.btn-adicionar, .btn-salvar, .btn-cancelar {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.btn-visualizar { background: #2196F3; color: white; }
+.btn-editar { background: #FF9800; color: white; }
+.btn-excluir { background: #f44336; color: white; }
+.btn-adicionar { background:var(--cor-vermelho); color: white };
+.btn-salvar { background: #4CAF50; color: white; }
+.btn-cancelar { background: #9E9E9E; color: white; }
+
+.sem-clientes {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 20px;
+}
+
+
+.btn-adicionar:hover {
+background-color: var(--cor-vermelho);
+ transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+
+.btn-visualizar:hover {
+ transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+.btn-editar:hover {
+ transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+.btn-excluir:hover {
+ transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
