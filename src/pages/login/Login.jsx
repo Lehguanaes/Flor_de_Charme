@@ -11,11 +11,11 @@ function Login({ onLogin }) {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nome_vendedor, cpf_vendedor }),
-      });
+     const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ nome_vendedor, cpf_vendedor }),
+});
 
       const data = await response.json();
 
