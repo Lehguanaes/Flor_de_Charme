@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import "./NavbarPublica.css"; // pode usar o mesmo CSS
+import "./NavBarPublica.css"; // pode usar o mesmo CSS
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo/logo_navbar.png";
 
@@ -12,7 +12,7 @@ export default function NavbarPublica() {
     { name: "Login", href: "/Login", icon: "account_circle" },
   ];
 
-  
+
   return (
     <nav className="navbar">
       <div className="nav-container">
