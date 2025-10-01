@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import "./Navbar.css";
+import "./NavBar.css";
 import { Link } from "react-router-dom"; 
 
 // Importando a logo
