@@ -25,14 +25,14 @@ function Login({ onLogin }) {
       <form onSubmit={handleSubmit} className="login-form">
         <input
           type="text"
-          placeholder="Nome"
+          placeholder="CPF:"
           value={nome_vendedor}
           onChange={(e) => setNome(e.target.value)}
           className="login-input"
         />
         <input
           type="text"
-          placeholder="CPF"
+          placeholder="Senha:"
           value={cpf_vendedor}
           onChange={(e) => setCpf(e.target.value)}
           className="login-input"
