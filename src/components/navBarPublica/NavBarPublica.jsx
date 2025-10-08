@@ -1,59 +1,27 @@
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
-import "./NavBarPublica.css"; // pode usar o mesmo CSS
+import { Info } from "lucide-react";
 import { Link } from "react-router-dom";
+import "./NavBarPublica.css";
 import logo from "../../assets/logo/logo_navbar.png";
 
-export default function NavbarPublica() {
-  const [open, setOpen] = useState(false);
-
-  const links = [
-    { name: "Sobre Nós", href: "/SobreNos", icon: "info" },
-    { name: "Login", href: "/Login", icon: "account_circle" },
-  ];
-
-
+export default function NavBarPublica() {
   return (
-    <nav className="navbar">
-      <div className="nav-container">
-        {/* Logo */}
-        <div className="logo-container">
-          <img src={logo} alt="Logo" className="logo" />
+    <nav className="navbar-publica">
+      <div className="nav-content">
+        {/* Logo à esquerda */}
+        <div className="nav-logo">
+          <img src={logo} alt="Logo" />
         </div>
 
-        {/* Links desktop */}
-        <div className="links-container">
-          {links.map((link) => (
-            <Link key={link.name} to={link.href} className="nav-link">
-              {link.name}
-            </Link>
-          ))}
-        </div>
-
-        {/* Botão mobile */}
-        <div className="icones-container">
-          <button
-            className={`mobile-menu-button ${open ? "open" : ""}`}
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Links mobile */}
-      <div className={`mobile-links ${open ? "open" : ""}`}>
-        {links.map((link) => (
-          <Link
-            key={link.name}
-            to={link.href}
-            className="nav-link mobile-link"
-            onClick={() => setOpen(false)}
-          >
-            <span className="material-symbols-outlined">{link.icon}</span>
-            {link.name}
+        {/* Ícone e botão no canto direito */}
+        <div className="nav-actions">
+          <Link to="/sobreNos" className="nav-icon" title="Sobre Nós">
+            <Info size={26} />
           </Link>
-        ))}
+
+          <Link to="/login" className="nav-login-btn">
+            Login
+          </Link>
+        </div>
       </div>
     </nav>
   );

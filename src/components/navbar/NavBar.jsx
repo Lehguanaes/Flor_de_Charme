@@ -41,9 +41,7 @@ export default function Navbar() {
   <Link to="/SobreNos">
     <span className="material-symbols-outlined">info</span>
   </Link>
-          {/* Ícone "account_circle" só exibe */}
-  <span className="material-symbols-outlined">account_circle</span>
-
+        
           <button
             className={`mobile-menu-button ${open ? "open" : ""}`}
             onClick={() => setOpen(!open)}
