@@ -12,6 +12,8 @@ import Regioes from "./pages/regioes/Regioes";
 import Veiculos from "./pages/veiculos/Veiculos";
 import Vendas from "./pages/vendas/Vendas";
 import SobreNos from "./pages/sobreNos/SobreNos";
+import HomePage from "./pages/homePage/HomePage";
+
 
 function AppContent() {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -22,7 +24,7 @@ function AppContent() {
   const currentPath = location.pathname;
 
   // 🔓 Páginas públicas
-  const isPublicPage = currentPath === "/login" || currentPath === "/sobreNos";
+  const isPublicPage = currentPath === "/login" || currentPath === "/sobreNos" || currentPath === "/homePage";
 
   const handleLogin = () => {
     setIsAuthenticated(true);
@@ -51,10 +53,14 @@ function AppContent() {
       )}
 
       <main className="main-content">
-        <Routes>
-          {/* Páginas públicas */}
-          <Route path="/login" element={<Login onLogin={handleLogin} />} />
-          <Route path="/sobreNos" element={<SobreNos />} />
+       <Routes>
+        {/* Páginas públicas */}
+        <Route path="/" element={<Navigate to="/homePage" />} />
+        <Route path="/homePage" element={<HomePage />} /> {/* <- ADICIONE ESTA LINHA */}
+        <Route path="/homepage" element={<Navigate to="/homePage" />} />
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="/sobreNos" element={<SobreNos />} />
+
 
           {/* Páginas privadas */}
           {isAuthenticated && (
@@ -64,23 +70,14 @@ function AppContent() {
               <Route path="/regioes" element={<Regioes />} />
               <Route path="/veiculos" element={<Veiculos />} />
               <Route path="/vendas" element={<Vendas />} />
+
             </>
           )}
 
-          {/* Redireciona raiz */}
-          <Route
-            path="/"
-            element={
-              isAuthenticated ? (
-                <Navigate to="/vendas" />
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
+       
 
           {/* Qualquer rota desconhecida → redireciona */}
-          <Route path="*" element={<Navigate to={isAuthenticated ? "/vendas" : "/login"} />} />
+          <Route path="*" element={<Navigate to={isAuthenticated ? "/vendas" : "/homepage"} />} />
         </Routes>
       </main>
 
