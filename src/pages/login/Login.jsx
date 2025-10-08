@@ -1,21 +1,43 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase"; // ajuste o caminho se necessário
 import "./Login.css";
 
 function Login({ onLogin }) {
-  const [nome_vendedor, setNome] = useState("");
-  const [cpf_vendedor, setCpf] = useState("");
+  const [id, setId] = useState("");
+  const [senha, setSenha] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // ✅ login falso
-    if (nome_vendedor.trim() !== "" && cpf_vendedor.trim() !== "") {
-      onLogin();
-      navigate("/vendas");
-    } else {
+    if (id.trim() === "" || senha.trim() === "") {
       alert("Preencha os campos para continuar!");
+      return;
+    }
+
+    try {
+      // Busca o documento diretamente pelo ID (CPF)
+      const docRef = doc(db, "vendedor", id);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const dados = docSnap.data();
+
+        if (dados.senha === senha) {
+          // Senha correta
+          onLogin();
+          navigate("/vendas");
+        } else {
+          alert("Senha incorreta.");
+        }
+      } else {
+        alert("Vendedor não encontrado.");
+      }
+    } catch (error) {
+      console.error("Erro ao fazer login:", error);
+      alert("Erro ao conectar com o banco de dados.");
     }
   };
 
@@ -25,19 +47,21 @@ function Login({ onLogin }) {
       <form onSubmit={handleSubmit} className="login-form">
         <input
           type="text"
-          placeholder="CPF:"
-          value={nome_vendedor}
-          onChange={(e) => setNome(e.target.value)}
+          placeholder="CPF"
+          value={id}
+          onChange={(e) => setId(e.target.value)}
           className="login-input"
         />
         <input
-          type="text"
-          placeholder="Senha:"
-          value={cpf_vendedor}
-          onChange={(e) => setCpf(e.target.value)}
+          type="password"
+          placeholder="Senha"
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
           className="login-input"
         />
-        <button type="submit" className="login-button">Entrar</button>
+        <button type="submit" className="login-button">
+          Entrar
+        </button>
       </form>
     </div>
   );
