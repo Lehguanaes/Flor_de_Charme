@@ -19,16 +19,32 @@
   color: var(--cor-vermelho-escuro);
 }
 
+/* Inputs do formulário */
 .inputs-form {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 500px 150px 150px !important;
   gap: 15px;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
+/* Cabeçalho e linhas da tabela */
+.cabecalho-tabela,
+.linha-produto {
+  display: grid;
+  grid-template-columns:
+    500px /* Descrição maior */
+    150px /* Quantidade */
+    150px /* Preço */
+    150px; /* Ações */
+  padding: 12px 15px;
+  align-items: center;
+}
+
+
 .inputs-form input {
-  flex: 1 1 200px;
-  padding: 8px 12px;
-  font-size: 1rem;
+  padding: 12px 15px;
+  font-size: 1.1rem;
   border: 1.5px solid #ccc;
   border-radius: 6px;
   transition: border-color 0.2s;
@@ -38,6 +54,7 @@
   border-color: var(--cor-vermelho-escuro);
   outline: none;
 }
+
 
 .botoes-form {
   margin-top: 15px;
@@ -74,44 +91,56 @@
 .lista-produtos h2 {
   margin-bottom: 15px;
   color: var(--cor-vermelho-escuro);
-}
-
-.tabela-produtos {
-  border-collapse: collapse;
-  width: 100%;
-  box-shadow: 0 0 6px rgba(0,0,0,0.1);
-  border-radius: 8px;
-  overflow: hidden;
+}.cabecalho-tabela,
+.linha-produto {
+  display: grid;
+  grid-template-columns:
+    400px /* Descrição */
+    150px /* Quantidade */
+    150px /* Preço */
+    150px; /* Ações */
+  padding: 12px 15px;
+  align-items: center;
 }
 
 .cabecalho-tabela {
-  display: grid;
-  grid-template-columns: 1fr 3fr 1fr 1fr 1.5fr;
   background-color: var(--cor-vermelho);
   color: white;
   font-weight: 700;
-  padding: 12px 15px;
+  border-radius: 8px 8px 0 0;
+}
+
+.cabecalho-tabela span:nth-child(2), /* Quantidade */
+.cabecalho-tabela span:nth-child(3), /* Preço */
+.cabecalho-tabela span:nth-child(4)  /* Ações */ {
+  text-align: center;
 }
 
 .linha-produto {
-  display: grid;
-  grid-template-columns: 1fr 3fr 1fr 1fr 1.5fr;
-  padding: 12px 15px;
   border-bottom: 1px solid #ddd;
-  align-items: center;
 }
 
 .linha-produto:nth-child(even) {
   background-color: #f7f7f7;
 }
 
-.acoes button {
-  cursor: pointer;
-  border: none;
-  background: transparent;
-  font-size: 1.1rem;
-  margin-right: 10px;
-  transition: color 0.3s;
+.linha-produto span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.linha-produto span:nth-child(2), /* Quantidade */
+.linha-produto span:nth-child(3)  /* Preço */ {
+  text-align: center;
+  color: var(--cor-vermelho-escuro);
+  font-weight: 600;
+}
+
+.acoes {
+  display: flex;
+  justify-content: center; /* centraliza os botões */
+  gap: 8px;
 }
 
 .btn-editar {
@@ -130,9 +159,23 @@
   color: #991f00;
 }
 
-.sem-produtos {
-  color: #777;
-  font-style: italic;
-  padding: 15px;
-  text-align: center;
+.preco-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.preco-wrapper span {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #555;
+  font-weight: 500;
+}
+
+.preco-wrapper input {
+  padding-left: 35px !important; /* espaço para o R$ */
+  width: 100%;
+  box-sizing: border-box;
 }

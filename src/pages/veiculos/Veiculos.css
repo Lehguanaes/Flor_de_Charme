@@ -1,0 +1,103 @@
+.veiculos {
+  max-width: 950px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.form-veiculo {
+  background: #f9f9f9;
+  padding: 25px 30px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+
+.form-veiculo h2 {
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: var(--cor-vermelho-escuro);
+}
+
+.inputs-form {
+  display: grid;
+  grid-template-columns: 250px 250px 250px !important;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.inputs-form input {
+  padding: 12px 15px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+}
+
+.botoes-form {
+  display: flex;
+  gap: 12px;
+}
+
+.botoes-form button {
+  padding: 12px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-weight: 600;
+}
+
+.btn-adicionar { background-color: var(--cor-vermelho); }
+.btn-adicionar:hover { background-color: #9e0000; }
+
+.lista-veiculos h2 { margin-bottom: 15px; color: var(--cor-vermelho-escuro); }
+
+.tabela-veiculos {
+  display: grid;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.cabecalho-tabela,
+.linha-veiculo {
+  display: grid;
+  grid-template-columns: 150px 250px 150px 150px 100px;
+  padding: 12px 15px;
+  align-items: center;
+}
+
+.cabecalho-tabela {
+  background-color: var(--cor-vermelho);
+  color: white;
+  font-weight: 700;
+}
+
+.cabecalho-tabela span { text-align: left; padding-left: 8px; }
+
+.linha-veiculo {
+  border-bottom: 1px solid #ddd;
+}
+
+.linha-veiculo:nth-child(even) { background-color: #f7f7f7; }
+
+.linha-veiculo span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.linha-veiculo span:nth-child(1),
+.linha-veiculo span:nth-child(2),
+.linha-veiculo span:nth-child(3),
+.linha-veiculo span:nth-child(4) { justify-content: flex-start; padding-left: 8px; }
+
+.acoes { display: flex; justify-content: center; gap: 8px; }
+
+.btn-visualizar { color: #17a2b8; }
+.btn-visualizar:hover { background-color: #d1ecf1; }
+
+.btn-excluir { color: #991f00; }
+.btn-excluir:hover { background-color: #f8d7da; }

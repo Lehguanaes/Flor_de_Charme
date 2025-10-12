@@ -1,30 +1,27 @@
 import { useState, useEffect } from "react";
-import { collection, getDocs, setDoc, doc, updateDoc, deleteDoc } from "firebase/firestore";
-import { db } from "../../firebase"; // ajuste o caminho se precisar
+import { supabase } from "../../apiSupabase";
 import "./Produtos.css";
 
 export default function Produtos() {
   const [produtos, setProdutos] = useState([]);
   const [produtoEditando, setProdutoEditando] = useState(null);
   const [novoProduto, setNovoProduto] = useState({
-    id: "",
     descricao_produto: "",
     quantidade_produto: "",
     preco_produto: "",
   });
+  const [mostrarTabela, setMostrarTabela] = useState(true);
 
-  // Carregar produtos do Firestore
+  // Carregar produtos do Supabase
   const carregarProdutos = async () => {
     try {
-      const produtosCol = collection(db, "produto");
-      const produtosSnapshot = await getDocs(produtosCol);
-      const listaProdutos = produtosSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-        quantidade_produto: doc.data().quantidade_produto || 0,
-        preco_produto: doc.data().preco_produto || 0,
-      }));
-      setProdutos(listaProdutos);
+      const { data, error } = await supabase
+        .from("produto")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      setProdutos(data || []);
     } catch (error) {
       console.error("Erro ao carregar produtos:", error);
       alert("Erro ao carregar produtos do banco.");
@@ -37,8 +34,8 @@ export default function Produtos() {
 
   // Adicionar produto
   const adicionarProduto = async () => {
-    if (!novoProduto.id || !novoProduto.descricao_produto || novoProduto.quantidade_produto === "" || novoProduto.preco_produto === "") {
-      alert("Preencha todos os campos, incluindo o ID!");
+    if (!novoProduto.descricao_produto || novoProduto.quantidade_produto === "" || novoProduto.preco_produto === "") {
+      alert("Preencha todos os campos!");
       return;
     }
 
@@ -56,23 +53,18 @@ export default function Produtos() {
     }
 
     try {
-      const produtoRef = doc(db, "produto", novoProduto.id);
-      await setDoc(produtoRef, {
-        descricao_produto: novoProduto.descricao_produto,
-        quantidade_produto: quantidade,
-        preco_produto: preco,
-      });
-
-      setProdutos([
-        ...produtos,
-        {
-          id: novoProduto.id,
+      const { data, error } = await supabase
+        .from("produto")
+        .insert([{
           descricao_produto: novoProduto.descricao_produto,
           quantidade_produto: quantidade,
-          preco_produto: preco,
-        },
-      ]);
-      setNovoProduto({ id: "", descricao_produto: "", quantidade_produto: "", preco_produto: "" });
+          preco_produto: preco
+        }])
+        .select();
+
+      if (error) throw error;
+      setProdutos([data[0], ...produtos]);
+      setNovoProduto({ descricao_produto: "", quantidade_produto: "", preco_produto: "" });
     } catch (error) {
       console.error("Erro ao adicionar produto:", error);
       alert("Erro ao adicionar produto no banco.");
@@ -83,7 +75,6 @@ export default function Produtos() {
   const editarProduto = (produto) => {
     setProdutoEditando(produto);
     setNovoProduto({
-      id: produto.id,
       descricao_produto: produto.descricao_produto,
       quantidade_produto: produto.quantidade_produto.toString(),
       preco_produto: produto.preco_produto.toString(),
@@ -92,8 +83,8 @@ export default function Produtos() {
 
   // Salvar edição
   const salvarEdicao = async () => {
-    if (!novoProduto.id || !novoProduto.descricao_produto || novoProduto.quantidade_produto === "" || novoProduto.preco_produto === "") {
-      alert("Preencha todos os campos, incluindo o ID!");
+    if (!novoProduto.descricao_produto || novoProduto.quantidade_produto === "" || novoProduto.preco_produto === "") {
+      alert("Preencha todos os campos!");
       return;
     }
 
@@ -111,21 +102,26 @@ export default function Produtos() {
     }
 
     try {
-      const produtoRef = doc(db, "produto", produtoEditando.id);
-      await updateDoc(produtoRef, {
-        descricao_produto: novoProduto.descricao_produto,
-        quantidade_produto: quantidade,
-        preco_produto: preco,
-      });
+      const { data, error } = await supabase
+        .from("produto")
+        .update({
+          descricao_produto: novoProduto.descricao_produto,
+          quantidade_produto: quantidade,
+          preco_produto: preco
+        })
+        .eq("codigo_produto", produtoEditando.codigo_produto)
+        .select();
+
+      if (error) throw error;
 
       setProdutos(produtos.map(p =>
-        p.id === produtoEditando.id
-          ? { ...p, descricao_produto: novoProduto.descricao_produto, quantidade_produto: quantidade, preco_produto: preco }
+        p.codigo_produto === produtoEditando.codigo_produto
+          ? data[0]
           : p
       ));
 
       setProdutoEditando(null);
-      setNovoProduto({ id: "", descricao_produto: "", quantidade_produto: "", preco_produto: "" });
+      setNovoProduto({ descricao_produto: "", quantidade_produto: "", preco_produto: "" });
     } catch (error) {
       console.error("Erro ao salvar produto:", error);
       alert("Erro ao salvar produto no banco.");
@@ -135,20 +131,25 @@ export default function Produtos() {
   // Cancelar edição
   const cancelarEdicao = () => {
     setProdutoEditando(null);
-    setNovoProduto({ id: "", descricao_produto: "", quantidade_produto: "", preco_produto: "" });
+    setNovoProduto({ descricao_produto: "", quantidade_produto: "", preco_produto: "" });
   };
 
   // Excluir produto
-  const excluirProduto = async (id) => {
-    if (window.confirm("Tem certeza que deseja excluir este produto?")) {
-      try {
-        const produtoRef = doc(db, "produto", id);
-        await deleteDoc(produtoRef);
-        setProdutos(produtos.filter(p => p.id !== id));
-      } catch (error) {
-        console.error("Erro ao excluir produto:", error);
-        alert("Erro ao excluir produto do banco.");
-      }
+  const excluirProduto = async (codigo_produto) => {
+    if (!window.confirm("Tem certeza que deseja excluir este produto?")) return;
+
+    try {
+      const { error } = await supabase
+        .from("produto")
+        .delete()
+        .eq("codigo_produto", codigo_produto);
+
+      if (error) throw error;
+
+      setProdutos(produtos.filter(p => p.codigo_produto !== codigo_produto));
+    } catch (error) {
+      console.error("Erro ao excluir produto:", error);
+      alert("Erro ao excluir produto do banco.");
     }
   };
 
@@ -157,13 +158,6 @@ export default function Produtos() {
       <div className="form-produto">
         <h2>{produtoEditando ? "Editar Produto" : "Adicionar Novo Produto"}</h2>
         <div className="inputs-form">
-          <input
-            type="text"
-            placeholder="ID do Produto"
-            value={novoProduto.id}
-            onChange={e => setNovoProduto({ ...novoProduto, id: e.target.value })}
-            disabled={produtoEditando !== null} // não deixa alterar o ID ao editar
-          />
           <input
             type="text"
             placeholder="Descrição"
@@ -177,14 +171,17 @@ export default function Produtos() {
             value={novoProduto.quantidade_produto}
             onChange={e => setNovoProduto({ ...novoProduto, quantidade_produto: e.target.value })}
           />
-          <input
-            type="number"
-            placeholder="Preço"
-            min="0"
-            step="0.01"
-            value={novoProduto.preco_produto}
-            onChange={e => setNovoProduto({ ...novoProduto, preco_produto: e.target.value })}
-          />
+         <div className="preco-wrapper">
+  <span>R$</span>
+  <input
+    type="number"
+    placeholder="Preço"
+    min="0"
+    step="0.01"
+    value={novoProduto.preco_produto}
+    onChange={e => setNovoProduto({ ...novoProduto, preco_produto: e.target.value })}
+  />
+</div>
         </div>
         <div className="botoes-form">
           {produtoEditando ? (
@@ -195,37 +192,42 @@ export default function Produtos() {
           ) : (
             <button onClick={adicionarProduto} className="btn-adicionar">Adicionar Produto</button>
           )}
+          <button
+            onClick={() => setMostrarTabela(!mostrarTabela)}
+            className="btn-toggle-tabela"
+          >
+            {mostrarTabela ? "Ocultar Produtos" : "Mostrar Produtos"}
+          </button>
         </div>
       </div>
 
-      <div className="lista-produtos">
-        <h2>Lista de Produtos</h2>
-        {produtos.length === 0 ? (
-          <p className="sem-produtos">Nenhum produto cadastrado</p>
-        ) : (
-          <div className="tabela-produtos">
-            <div className="cabecalho-tabela">
-              <span>ID</span>
-              <span>Descrição</span>
-              <span>Quantidade</span>
-              <span>Preço</span>
-              <span>Ações</span>
-            </div>
-            {produtos.map(produto => (
-              <div key={produto.id} className="linha-produto">
-                <span>{produto.id}</span>
-                <span>{produto.descricao_produto}</span>
-                <span>{produto.quantidade_produto}</span>
-                <span>R$ {produto.preco_produto.toFixed(2)}</span>
-                <div className="acoes">
-                  <button onClick={() => editarProduto(produto)} className="btn-editar">✏️ Editar</button>
-                  <button onClick={() => excluirProduto(produto.id)} className="btn-excluir">🗑️ Excluir</button>
-                </div>
+      {mostrarTabela && (
+        <div className="lista-produtos">
+          {produtos.length === 0 ? (
+            <p className="sem-produtos">Nenhum produto cadastrado</p>
+          ) : (
+            <div className="tabela-produtos">
+              <div className="cabecalho-tabela">
+                <span>Descrição</span>
+                <span>Quantidade</span>
+                <span>Preço</span>
+                <span>Ações</span>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
+              {produtos.map(produto => (
+                <div key={produto.codigo_produto} className="linha-produto">
+                  <span>{produto.descricao_produto}</span>
+                  <span>{produto.quantidade_produto}</span>
+                  <span>R$ {produto.preco_produto.toFixed(2)}</span>
+                  <div className="acoes">
+                    <button onClick={() => editarProduto(produto)} className="btn-editar">✏️ </button>
+                    <button onClick={() => excluirProduto(produto.codigo_produto)} className="btn-excluir">🗑️ </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </section>
   );
 }

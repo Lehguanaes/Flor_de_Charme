@@ -1,59 +1,114 @@
 .vendas {
-  padding: 20px;
-  max-width: 500px;
+  padding: 40px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
 .h1-vendedor {
   text-align: center;
   color: var(--cor-vermelho-escuro);
-  margin-bottom: 20px;
-  font-size: 20px;
-  font-family: 'Poppins', sans-serif; /* exemplo de fonte elegante */
-
+  margin-bottom: 30px;
+  font-size: 30px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .form-venda {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 20px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  justify-content: space-between;
 }
 
 .input-group {
+  flex: 1 1 30%;
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
 .input-group label {
   font-weight: bold;
   color: #555;
+  margin-bottom: 5px;
 }
 
 .input-group select,
 .input-group input {
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 16px;
 }
 
 .btn-registrar {
-      background-color: #9e0000;
-
+  flex: 1 1 100%;
+  padding: 14px;
+  margin-top: 10px;
+  background-color: #9e0000;
   color: white;
-  padding: 12px;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-registrar:hover {
+  background-color: var(--cor-vermelho);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+.botoes-listagem {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+  justify-content: flex-start;
+}
+
+.btn-listagem {
+  padding: 12px 20px;
   border: none;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
-  margin-top: 10px;
+  background-color: #555;
+  color: white;
 }
 
+.btn-listagem:hover {
+  background-color: #333;
+}
 
-.btn-registrar:hover {
-background-color: var(--cor-vermelho);
- transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  transition: all 0.3s ease;
+.lista-vendas {
+  overflow-x: auto;
+}
+
+.tabela-vendas {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabela-vendas th, .tabela-vendas td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.tabela-vendas th {
+  background-color: var(--cor-vermelho-escuro);
+  color: white;
+}
+
+.tabela-vendas tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.detalhe-vermelho {
+  color: var(--cor-vermelho-escuro);
+  font-weight: bold;
 }

@@ -1,53 +1,60 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../firebase"; // seu setup do Firestore
+import { supabase } from "../../apiSupabase"; // conexão Supabase
 import "./Login.css";
 import olhoFechado from "../../assets/mostrarSenha.png";
 import olhoAberto from "../../assets/setMostrarSenha.png";
 
 function Login({ onLogin }) {
-  const [email, setEmail] = useState(""); // será cpf@dominio.com
+  const [cpf, setCpf] = useState(""); // agora só CPF
   const [senha, setSenha] = useState("");
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const navigate = useNavigate();
-  const auth = getAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (email.trim() === "" || senha.trim() === "") {
+    if (cpf.trim() === "" || senha.trim() === "") {
       alert("Preencha os campos para continuar!");
       return;
     }
 
     try {
-      // Login no Firebase Auth
-      const userCredential = await signInWithEmailAndPassword(auth, email, senha);
+      // 1️⃣ Verifica se CPF + senha existem na tabela 'conta'
+      const { data: conta, error: contaError } = await supabase
+        .from("conta")
+        .select("*")
+        .eq("cpf_vendedor", cpf)
+        .eq("senha_vendedor", senha)
+        .single();
 
-      // Extrai o CPF da parte antes do @
-      const cpf = email.split("@")[0];
-
-      // Busca dados do vendedor no Firestore usando o CPF como ID
-      const docRef = doc(db, "vendedor", cpf);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        const dados = docSnap.data();
-
-        // Aqui você pode salvar o vendedor na sessão, por exemplo:
-        sessionStorage.setItem("vendedorId", cpf);
-        sessionStorage.setItem("vendedorNome", dados.nome);
-
-        onLogin();
-        navigate("/vendas");
-      } else {
-        alert("Vendedor não encontrado no Firestore.");
+      if (contaError || !conta) {
+        alert("CPF ou senha inválidos.");
+        return;
       }
+
+      // 2️⃣ Busca dados do vendedor na tabela 'vendedor'
+      const { data: vendedor, error: vendedorError } = await supabase
+        .from("vendedor")
+        .select("*")
+        .eq("cpf_vendedor", cpf)
+        .single();
+
+      if (vendedorError || !vendedor) {
+        alert("Vendedor não encontrado.");
+        return;
+      }
+
+      // 3️⃣ Salva dados na sessão
+      sessionStorage.setItem("vendedorId", cpf);
+      sessionStorage.setItem("vendedorNome", vendedor.nome_vendedor);
+
+      // 4️⃣ Executa callback e navega
+      onLogin();
+      navigate("/vendas");
     } catch (error) {
       console.error("Erro no login:", error);
-      alert("Usuário ou senha inválidos.");
+      alert("Ocorreu um erro ao tentar logar.");
     }
   };
 
@@ -56,10 +63,10 @@ function Login({ onLogin }) {
       <h2 className="login-title">Acesso ao Sistema</h2>
       <form onSubmit={handleSubmit} className="login-form">
         <input
-          type="email"
+          type="text"
           placeholder="CPF"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={cpf}
+          onChange={(e) => setCpf(e.target.value)}
           className="login-input"
         />
         <div className="login-senha-container">
