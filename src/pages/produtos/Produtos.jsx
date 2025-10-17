@@ -42,12 +42,12 @@ export default function Produtos() {
     const quantidade = parseInt(novoProduto.quantidade_produto);
     const preco = parseFloat(novoProduto.preco_produto);
 
-    if (isNaN(quantidade) || quantidade < 0) {
+    if (isNaN(quantidade) || quantidade <= 0) {
       alert("Quantidade deve ser um número inteiro positivo");
       return;
     }
 
-    if (isNaN(preco) || preco < 0) {
+    if (isNaN(preco) || preco <= 0) {
       alert("Preço deve ser um número positivo");
       return;
     }
@@ -91,12 +91,12 @@ export default function Produtos() {
     const quantidade = parseInt(novoProduto.quantidade_produto);
     const preco = parseFloat(novoProduto.preco_produto);
 
-    if (isNaN(quantidade) || quantidade < 0) {
+    if (isNaN(quantidade) || quantidade <= 0) {
       alert("Quantidade deve ser um número inteiro positivo");
       return;
     }
 
-    if (isNaN(preco) || preco < 0) {
+    if (isNaN(preco) || preco <= 0) {
       alert("Preço deve ser um número positivo");
       return;
     }

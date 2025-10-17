@@ -9,12 +9,11 @@ export default function Vendas() {
   const [clientes, setClientes] = useState([]);
   const [produtos, setProdutos] = useState([]);
   const [vendas, setVendas] = useState([]);
-  const [verTabela, setVerTabela] = useState(null); // null = oculto, 'minhas' = minhas vendas, 'todas' = todas vendas
+  const [verTabela, setVerTabela] = useState(null);
 
   const vendedorId = sessionStorage.getItem("vendedorId");
   const vendedorNome = sessionStorage.getItem("vendedorNome");
 
-  // Carregar clientes
   useEffect(() => {
     const carregarClientes = async () => {
       const { data, error } = await supabase.from("cliente").select("*");
@@ -27,7 +26,6 @@ export default function Vendas() {
     carregarClientes();
   }, []);
 
-  // Carregar produtos
   useEffect(() => {
     const carregarProdutos = async () => {
       const { data, error } = await supabase.from("produto").select("*");
@@ -40,7 +38,6 @@ export default function Vendas() {
     carregarProdutos();
   }, []);
 
-  // Registrar venda
   const registrarVenda = async () => {
     if (!cliente || !produto || quantidade <= 0) {
       alert("Preencha todos os campos corretamente.");
@@ -59,7 +56,6 @@ export default function Vendas() {
     }
 
     try {
-      // Criar nota_fiscal
       const { data: novaNota, error: notaError } = await supabase
         .from("nota_fiscal")
         .insert([{ data: new Date().toISOString(), cpf_vendedor: vendedorId, cpf_cliente: cliente }])
@@ -67,13 +63,11 @@ export default function Vendas() {
         .single();
       if (notaError) throw notaError;
 
-      // Inserir itens_nota
       const { error: itensError } = await supabase
         .from("itens_nota")
         .insert([{ numero_nf: novaNota.numero_nf, codigo_produto: produtoSelecionado.codigo_produto, quantidade_pedida: quantidade }]);
       if (itensError) throw itensError;
 
-      // Atualizar estoque do produto
       await supabase
         .from("produto")
         .update({ quantidade_produto: produtoSelecionado.quantidade_produto - quantidade })
@@ -84,7 +78,6 @@ export default function Vendas() {
       setProduto("");
       setQuantidade(1);
 
-      // Atualiza lista local de produtos
       setProdutos(produtos.map(p =>
         p.codigo_produto === produtoSelecionado.codigo_produto
           ? { ...p, quantidade_produto: p.quantidade_produto - quantidade }
@@ -96,7 +89,6 @@ export default function Vendas() {
     }
   };
 
-  // Carregar vendas
   const carregarVendas = async (tipo) => {
     try {
       let query = supabase.from("nota_fiscal").select(`
@@ -112,7 +104,7 @@ export default function Vendas() {
       const { data, error } = await query;
       if (error) throw error;
       setVendas(data);
-      setVerTabela(verTabela === tipo ? null : tipo); // toggle
+      setVerTabela(verTabela === tipo ? null : tipo);
     } catch (error) {
       console.error("Erro ao carregar vendas:", error);
       alert("Erro ao carregar vendas.");
@@ -126,41 +118,59 @@ export default function Vendas() {
       </div>
 
       <div className="form-venda">
-        <div className="input-group">
+        {/* Campo Cliente */}
+        <div className="campo-venda campo-cliente">
           <label>Cliente:</label>
           <select value={cliente} onChange={e => setCliente(e.target.value)}>
             <option value="">Selecione um cliente</option>
             {clientes.map(c => (
-              <option key={c.cpf_cliente} value={c.cpf_cliente}>{c.nome_cliente}</option>
-            ))}
-          </select>
-        </div>
-
-        <div className="input-group">
-          <label>Produto:</label>
-          <select value={produto} onChange={e => setProduto(e.target.value)}>
-            <option value="">Selecione um produto</option>
-            {produtos.map(p => (
-              <option key={p.codigo_produto} value={p.codigo_produto}>
-                {p.descricao_produto} (Disponível: {p.quantidade_produto}) - R$ {p.preco_produto.toFixed(2)}
+              <option key={c.cpf_cliente} value={c.cpf_cliente}>
+                {c.nome_cliente}
               </option>
             ))}
           </select>
         </div>
 
-        <div className="input-group">
-          <label>Quantidade:</label>
-          <input type="number" min="1" value={quantidade} onChange={e => setQuantidade(parseInt(e.target.value) || 1)} />
+        {/* Campo Produto */}
+        <div className="campo-venda campo-produto">
+          <label>Produto:</label>
+          <select value={produto} onChange={e => setProduto(e.target.value)}>
+            <option value="">Selecione um produto</option>
+            {produtos.map(p => (
+              <option key={p.codigo_produto} value={p.codigo_produto}>
+                {p.descricao_produto} (Disp: {p.quantidade_produto}) - R$ {p.preco_produto.toFixed(2)}
+              </option>
+            ))}
+          </select>
         </div>
 
-        <button className="btn-registrar" onClick={registrarVenda}>Registrar Venda</button>
+        {/* Campo Quantidade */}
+        <div className="campo-venda campo-quantidade">
+          <label>Quantidade:</label>
+          <input
+            type="number"
+            min="1"
+            value={quantidade}
+            onChange={e => setQuantidade(parseInt(e.target.value) || 1)}
+          />
+        </div>
+
+        <button className="btn-registrar" onClick={registrarVenda}>
+          Registrar Venda
+        </button>
       </div>
 
       <div className="botoes-listagem">
-        <button className="btn-listagem" onClick={() => carregarVendas("minhas")}>
+        <button
+          className="btn-listagem btn-minhas-vendas"
+          onClick={() => carregarVendas("minhas")}
+        >
           Mostrar Minhas Vendas
         </button>
-        <button className="btn-listagem" onClick={() => carregarVendas("todas")}>
+        <button
+          className="btn-listagem btn-todas-vendas"
+          onClick={() => carregarVendas("todas")}
+        >
           Mostrar Todas as Vendas
         </button>
       </div>
@@ -180,7 +190,12 @@ export default function Vendas() {
             </thead>
             <tbody>
               {vendas.map(venda => {
-                const total = venda.itens?.reduce((acc, item) => acc + item.quantidade_pedida * item.produto.preco_produto, 0) || 0;
+                const total =
+                  venda.itens?.reduce(
+                    (acc, item) =>
+                      acc + item.quantidade_pedida * item.produto.preco_produto,
+                    0
+                  ) || 0;
                 return (
                   <tr key={venda.numero_nf}>
                     <td className="detalhe-vermelho">{venda.numero_nf.slice(-10)}</td>
@@ -190,7 +205,8 @@ export default function Vendas() {
                     <td>
                       {venda.itens?.map(item => (
                         <div key={item.codigo_produto} className="detalhe-vermelho">
-                          {item.produto.descricao_produto} x {item.quantidade_pedida} = R$ {(item.quantidade_pedida * item.produto.preco_produto).toFixed(2)}
+                          {item.produto.descricao_produto} x {item.quantidade_pedida} = R${" "}
+                          {(item.quantidade_pedida * item.produto.preco_produto).toFixed(2)}
                         </div>
                       ))}
                     </td>
