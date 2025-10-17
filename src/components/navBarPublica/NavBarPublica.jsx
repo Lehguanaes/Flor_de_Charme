@@ -9,7 +9,9 @@ export default function NavBarPublica() {
       <div className="nav-content">
         {/* Logo à esquerda */}
         <div className="nav-logo">
-          <img src={logo} alt="Logo" />
+          <Link to="/homePage">
+  <img src={logo} alt="Logo" />
+</Link>
         </div>
 
         {/* Ícone e botão no canto direito */}
