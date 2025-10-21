@@ -5,40 +5,63 @@ import "./Veiculos.css";
 
 export default function UsoVeiculos() {
   const [usoVeiculos, setUsoVeiculos] = useState([]);
+  const [veiculos, setVeiculos] = useState([]);
   const [novoUso, setNovoUso] = useState({
     placa: "",
     cpf_vendedor: "",
     data_uso: "",
   });
 
-  // 🔹 Carregar registros existentes de uso de veículos
+  // Carregar usos com nome do vendedor via join
   const carregarUsos = async () => {
-    const { data: usos, error } = await supabase.from("uso_veiculo").select("*").order("data_uso", { ascending: false });
-    if (error) {
-      console.error("Erro ao carregar usos:", error.message);
-      return;
+    try {
+      const { data, error } = await supabase
+        .from("uso_veiculo")
+        .select(`
+          id,
+          placa,
+          cpf_vendedor,
+          data_uso,
+          vendedor:cpf_vendedor ( nome_vendedor )
+        `)
+        .order("data_uso", { ascending: false });
+
+      if (error) throw error;
+      setUsoVeiculos(data || []);
+    } catch (error) {
+      console.error("Erro ao carregar usos:", error);
+      alert("Erro ao carregar os dados.");
     }
-    setUsoVeiculos(usos || []);
+  };
+
+  const carregarVeiculos = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("veiculo")
+        .select("placa_veiculo, modelo_veiculo");
+
+      if (error) throw error;
+      setVeiculos(data || []);
+    } catch (error) {
+      console.error("Erro ao carregar veículos:", error);
+      alert("Erro ao carregar veículos.");
+    }
   };
 
   useEffect(() => {
     carregarUsos();
+    carregarVeiculos();
   }, []);
 
-  // 🔹 Adicionar novo uso de veículo
   const adicionarUso = async () => {
     if (!novoUso.placa || !novoUso.cpf_vendedor || !novoUso.data_uso) {
       alert("Preencha todos os campos!");
       return;
     }
 
-    // Limpa a máscara do CPF
     const cpfLimpo = novoUso.cpf_vendedor.replace(/\D/g, "");
-
-    // Formata a data para o formato ISO (YYYY-MM-DD)
     const dataISO = new Date(novoUso.data_uso).toISOString().split("T")[0];
 
-    // Verificar se o veículo já está em uso nesse dia
     const ocupado = usoVeiculos.find(
       (u) => u.placa === novoUso.placa.toUpperCase() && u.data_uso === dataISO
     );
@@ -47,7 +70,6 @@ export default function UsoVeiculos() {
       return;
     }
 
-    // Inserir no Supabase
     const { error } = await supabase.from("uso_veiculo").insert([
       {
         placa: novoUso.placa.trim().toUpperCase(),
@@ -64,10 +86,9 @@ export default function UsoVeiculos() {
 
     alert("✅ Uso do veículo registrado com sucesso!");
     setNovoUso({ placa: "", cpf_vendedor: "", data_uso: "" });
-    carregarUsos(); // Atualiza a lista
+    carregarUsos();
   };
 
-  // 🔹 Excluir registro de uso
   const excluirUso = async (id) => {
     if (!window.confirm("Deseja realmente excluir este uso?")) return;
 
@@ -81,18 +102,27 @@ export default function UsoVeiculos() {
     setUsoVeiculos(usoVeiculos.filter((u) => u.id !== id));
   };
 
+  const obterModeloVeiculo = (placa) => {
+    const v = veiculos.find((v) => v.placa_veiculo === placa);
+    return v ? v.modelo_veiculo : "Modelo não encontrado";
+  };
+
   return (
     <section className="veiculos">
-      {/* 🔸 Formulário de registro */}
       <div className="form-veiculo">
         <h2>Registrar Uso do Veículo</h2>
-
         <div className="inputs-form">
-          <input
-            placeholder="Placa do veículo (ex: ABC1234)"
+          <select
             value={novoUso.placa}
             onChange={(e) => setNovoUso({ ...novoUso, placa: e.target.value })}
-          />
+          >
+            <option value="">Selecione a placa do veículo</option>
+            {veiculos.map((v) => (
+              <option key={v.placa_veiculo} value={v.placa_veiculo}>
+                {v.placa_veiculo}
+              </option>
+            ))}
+          </select>
 
           <InputMask
             mask="999.999.999-99"
@@ -119,46 +149,47 @@ export default function UsoVeiculos() {
         </div>
       </div>
 
-      {/* 🔸 Lista de usos */}
       <div className="lista-veiculos">
-        <h2>Uso de Veículos</h2>
-
         {usoVeiculos.length === 0 ? (
           <p className="sem-registros">Nenhum uso registrado ainda.</p>
         ) : (
-          <div className="tabela-veiculos">
-            <div className="cabecalho-tabela">
-              <span>Placa</span>
-              <span>Vendedor (CPF)</span>
-              <span>Data</span>
-              <span>Ações</span>
-            </div>
-
-            {usoVeiculos.map((u) => (
-              <div key={u.id} className="linha-veiculo">
-                <span>{u.placa}</span>
-                <span>
-                  {u.cpf_vendedor.replace(
-                    /(\d{3})(\d{3})(\d{3})(\d{2})/,
-                    "$1.$2.$3-$4"
-                  )}
-                </span>
-                <span>{u.data_uso}</span>
-                <div className="acoes">
-                  <button className="btn-visualizar" title="Visualizar">
-                    👁️
-                  </button>
-                  <button
-                    className="btn-excluir"
-                    title="Excluir"
-                    onClick={() => excluirUso(u.id)}
-                  >
-                    🗑️
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+          <table className="tabela-veiculos">
+            <thead>
+              <tr>
+                <th>Placa</th>
+                <th>Modelo</th>
+                <th>CPF Vendedor</th>
+                <th>Nome Vendedor</th>
+                <th>Data</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {usoVeiculos.map((u) => (
+                <tr key={u.id}>
+                  <td>{u.placa}</td>
+                  <td>{obterModeloVeiculo(u.placa)}</td>
+                  <td>
+                    {u.cpf_vendedor.replace(
+                      /(\d{3})(\d{3})(\d{3})(\d{2})/,
+                      "$1.$2.$3-$4"
+                    )}
+                  </td>
+                  <td>{u.vendedor?.nome_vendedor || "Não informado"}</td>
+                  <td>{u.data_uso}</td>
+                  <td>
+                    <button
+                      className="btn-excluir"
+                      title="Excluir"
+                      onClick={() => excluirUso(u.id)}
+                    >
+                      🗑️
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
       </div>
     </section>

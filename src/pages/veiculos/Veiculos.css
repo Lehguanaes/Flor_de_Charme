@@ -9,7 +9,7 @@
   background: #f9f9f9;
   padding: 25px 30px;
   border-radius: 10px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
 }
 
@@ -21,15 +21,17 @@
 
 .inputs-form {
   display: grid;
-  grid-template-columns: 250px 250px 250px !important;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 15px;
   margin-bottom: 15px;
 }
 
-.inputs-form input {
+.inputs-form input,
+.inputs-form select {
   padding: 12px 15px;
   border: 1.5px solid #ccc;
   border-radius: 6px;
+  font-size: 16px;
 }
 
 .botoes-form {
@@ -46,58 +48,134 @@
   font-weight: 600;
 }
 
-.btn-adicionar { background-color: var(--cor-vermelho); }
-.btn-adicionar:hover { background-color: #9e0000; }
+.btn-adicionar {
+  background-color: var(--cor-vermelho);
+}
 
-.lista-veiculos h2 { margin-bottom: 15px; color: var(--cor-vermelho-escuro); }
+.btn-adicionar:hover {
+  background-color: #9e0000;
+}
+/* ===== TABELA ===== */
+.lista-veiculos {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 40px;
+}
 
 .tabela-veiculos {
-  display: grid;
-  border-radius: 10px;
-  background: #fff;
-  overflow: hidden;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+  font-size: 0.95rem;
 }
 
-.cabecalho-tabela,
-.linha-veiculo {
-  display: grid;
-  grid-template-columns: 150px 250px 150px 150px 100px;
-  padding: 12px 15px;
-  align-items: center;
-}
-
-.cabecalho-tabela {
-  background-color: var(--cor-vermelho);
+.tabela-veiculos th {
+  background: linear-gradient(135deg, var(--cor-vermelho-escuro, #8B0000) 0%, #a50000 100%);
   color: white;
-  font-weight: 700;
+  padding: 16px 12px;
+  font-weight: 600;
+  text-align: left;
+  position: sticky;
+  top: 0;
 }
 
-.cabecalho-tabela span { text-align: left; padding-left: 8px; }
+.tabela-veiculos td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #eaeaea;
+  background-color: #fff;
+}
+
+.tabela-veiculos tr {
+  transition: background-color 0.2s ease;
+}
+
+.tabela-veiculos tr:hover {
+  background-color: #f8f9fa;
+}
+
+.tabela-veiculos tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.tabela-veiculos tr:nth-child(even):hover {
+  background-color: #f1f3f4;
+}
+
+/* ===== DESTAQUES ===== */
+.detalhe-vermelho {
+  color: var(--cor-vermelho-escuro, #8B0000);
+  font-weight: 700;
+  font-size: 1.05em;
+}
+
 
 .linha-veiculo {
+  display: table-row;
   border-bottom: 1px solid #ddd;
 }
 
-.linha-veiculo:nth-child(even) { background-color: #f7f7f7; }
+.linha-veiculo:nth-child(even) {
+  background-color: #f7f7f7;
+}
 
 .linha-veiculo span {
+  display: inline-block;
+  padding: 12px 15px;
+  text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  display: flex;
-  align-items: center;
 }
 
-.linha-veiculo span:nth-child(1),
-.linha-veiculo span:nth-child(2),
-.linha-veiculo span:nth-child(3),
-.linha-veiculo span:nth-child(4) { justify-content: flex-start; padding-left: 8px; }
+.acoes {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
 
-.acoes { display: flex; justify-content: center; gap: 8px; }
 
-.btn-visualizar { color: #17a2b8; }
-.btn-visualizar:hover { background-color: #d1ecf1; }
+.btn-excluir {
+  color: #991f00;
+}
 
-.btn-excluir { color: #991f00; }
-.btn-excluir:hover { background-color: #f8d7da; }
+.btn-excluir:hover {
+  background-color: #f8d7da;
+}
+
+/* Estilo para o select (campo de placa) */
+.inputs-form select {
+  padding: 14px 15px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  width: 100%; /* Garante que o select ocupe 100% da largura */
+}
+
+.inputs-form input,
+.inputs-form select {
+  margin-bottom: 15px; /* Espaço entre os campos */
+}
+
+@media (max-width: 768px) {
+  .inputs-form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .inputs-form input,
+  .inputs-form select {
+    padding: 10px;
+  }
+
+  .cabecalho-tabela span {
+    width: auto;
+  }
+
+  .tabela-veiculos {
+    font-size: 14px;
+  }
+
+  .botoes-form button {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
