@@ -5,6 +5,72 @@
   color: #333;
 }
 
+.form-ponto {
+  position: relative; /* necessário para posicionar o ::before */
+  background: #f9f9f9;
+  padding: 25px 30px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+
+.form-ponto::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--cor-vermelho-escuro, #8B0000), #d32f2f, var(--cor-vermelho-escuro, #8B0000));
+  border-radius: 16px 16px 0 0;
+}
+
+.h2-pontos {
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: var(--cor-vermelho-escuro, #8B0000);
+  font-size: 1.5rem;
+  position: relative;
+  padding-bottom: 10px;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.h2-pontos::after {
+  content: '';
+  position: absolute;   /* mudou de relative para absolute */
+  bottom: 0;
+  left: 50%;            /* posiciona no meio horizontal */
+  transform: translateX(-50%); /* centraliza exatamente */
+  width: 60px;
+  height: 3px;
+  background: var(--cor-vermelho-escuro, #8B0000);
+  border-radius: 2px;
+}
+
+
+.h2-adicionar-ponto {
+  text-align: center;
+  color: var(--cor-vermelho-escuro, #8B0000);
+  margin-bottom: clamp(25px, 5vw, 40px);
+  font-size: clamp(1.25rem, 3.5vw, 1.75rem);
+  font-weight: 700;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.h2-adicionar-ponto::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--cor-vermelho-escuro, #8B0000), transparent);
+}
+
+
 /* Regiões */
 .lista-regioes h2 {
   color: var(--cor-vermelho-escuro);
@@ -48,81 +114,98 @@
   box-shadow: 0 0 6px rgba(0,0,0,0.1);
 }
 
-.inputs-form {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+.form-ponto .inputs-form {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center; /* Centraliza horizontalmente */
+  gap: 16px !important;
 }
 
-.inputs-form input, .inputs-form select {
-  padding: 10px;
-  border-radius: 6px;
-  border: 1.5px solid #ccc;
-  font-size: 1rem;
+
+.form-ponto .inputs-form select,
+.form-ponto .inputs-form input {
+  width: 80% !important;
+  box-sizing: border-box;
 }
 
-.inputs-form input:focus, .inputs-form select:focus {
+
+.inputs-form select:focus,
+.inputs-form input:focus {
   border-color: var(--cor-vermelho-escuro);
   outline: none;
 }
 
-.btn-adicionar {
-  background-color: var(--cor-vermelho);
+
+.inputs-form .btn-adicionar {
+  background-color: var(--cor-vermelho-escuro);
   color: white;
-  cursor: pointer;
-  border-radius: 6px;
-  padding: 10px 18px;
   border: none;
+  border-radius: 6px;
+  padding: 12px;
   font-weight: 600;
+  cursor: pointer;
+  width: 200px !important; 
+  box-sizing: border-box;
+  transition: background-color 0.3s ease;
+
 }
 
-.btn-adicionar:hover {
+.inputs-form .btn-adicionar:hover {
   background-color: #9e0000;
 }
 
-/* Tabela de pontos estratégicos */
-.lista-pontos h2 {
-  color: var(--cor-vermelho-escuro);
-  margin-bottom: 15px;
+/* ===== TABELA PONTOS ESTRATÉGICOS ===== */
+/* ===== TABELA PONTOS ESTRATÉGICOS ===== */
+.tabela-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 40px;
 }
 
 .tabela-pontos {
-  display: grid;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 0 6px rgba(0,0,0,0.1);
-  background: #fff;
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+  font-size: 0.95rem;
 }
 
-.cabecalho-tabela, .linha-ponto {
-  display: grid;
-  grid-template-columns: 400px 300px 150px;
-  padding: 12px 15px;
-  align-items: center;
-}
-
-.cabecalho-tabela {
-  background-color: var(--cor-vermelho);
+.tabela-pontos th {
+  background: linear-gradient(135deg, var(--cor-vermelho-escuro, #8B0000) 0%, #a50000 100%);
   color: white;
-  font-weight: 700;
+  padding: 16px 12px;
+  font-weight: 600;
+  text-align: left;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
-.linha-ponto {
-  border-bottom: 1px solid #ddd;
+.tabela-pontos td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #eaeaea;
+  background-color: #fff;
 }
 
-.linha-ponto:nth-child(even) {
-  background-color: #f7f7f7;
+.tabela-pontos tr {
+  transition: background-color 0.2s ease;
 }
 
-.linha-ponto span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.tabela-pontos tr:hover {
+  background-color: #f8f9fa;
+}
+
+.tabela-pontos tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.tabela-pontos tr:nth-child(even):hover {
+  background-color: #f1f3f4;
 }
 
 .acoes {
   display: flex;
+  gap: 8px;
   justify-content: center;
 }
 
@@ -131,8 +214,11 @@
   cursor: pointer;
   border: none;
   background: none;
+  font-size: 1.1rem;
+  transition: transform 0.2s ease;
 }
 
 .btn-excluir:hover {
   color: #991f00;
+  transform: scale(1.1);
 }

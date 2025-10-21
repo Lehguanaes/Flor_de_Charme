@@ -1,6 +1,8 @@
 /* ===== SEÇÃO VENDAS ===== */
 .vendas {
   padding: clamp(20px, 4vw, 40px);
+    margin: 20px auto;
+
   max-width: 1200px;
   margin: 0 auto;
   font-family: 'Poppins', sans-serif;
@@ -10,22 +12,11 @@
 .h1-vendedor {
   text-align: center;
   color: var(--cor-vermelho-escuro, #8B0000);
-  margin-bottom: clamp(25px, 5vw, 40px);
   font-size: clamp(1.5rem, 4vw, 2rem);
   font-weight: 700;
   position: relative;
-  padding-bottom: 15px;
-}
-
-.h1-vendedor::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, var(--cor-vermelho-escuro, #8B0000), transparent);
+  margin-bottom: 25px;
+  margin-top: 0px !important;
 }
 
 /* ===== FORMULÁRIO - CORRIGIDO ===== */
@@ -263,7 +254,7 @@
 .tabela-vendas {
   width: 100%;
   border-collapse: collapse;
-  min-width: 800px;
+  min-width: 1000px;
   font-size: 0.95rem;
 }
 

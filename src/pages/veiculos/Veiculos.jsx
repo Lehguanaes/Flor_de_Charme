@@ -110,7 +110,7 @@ export default function UsoVeiculos() {
   return (
     <section className="veiculos">
       <div className="form-veiculo">
-        <h2>Registrar Uso do Veículo</h2>
+        <h2 className="h2-veiculo">Registrar Uso do Veículo</h2>
         <div className="inputs-form">
           <select
             value={novoUso.placa}

@@ -102,7 +102,7 @@ const formatTelefone = (tel) => {
   return (
     <section className="clientes">
       <div className="form-cliente">
-        <h2>{clienteEditando ? "Editar Cliente" : "Adicionar Novo Cliente"}</h2>
+        <h2 className="h2-cliente">Adicionar Novo Cliente</h2>
         <div className="inputs-form">
           <InputMask
             mask="999.999.999-99"
@@ -137,29 +137,33 @@ const formatTelefone = (tel) => {
       </div>
 
       <div className="lista-clientes">
-        <h2>Lista de Clientes</h2>
         {clientes.length === 0 ? (
           <p className="sem-clientes">Nenhum cliente cadastrado</p>
         ) : (
-          <div className="tabela-clientes">
-            <div className="cabecalho-tabela">
-              <span>CPF</span>
-              <span>Nome</span>
-              <span>Telefone</span>
-              <span>Ações</span>
-            </div>
-            {clientes.map(cliente => (
-              <div key={cliente.cpf_cliente} className="linha-cliente">
-                <span>{formatCPF(cliente.cpf_cliente)}</span>
-                <span>{cliente.nome_cliente}</span>
-                <span>{formatTelefone(cliente.telefone)}</span>
-                <div className="acoes">
-                  <button onClick={() => editarCliente(cliente)} className="btn-editar">✏️ </button>
-                  <button onClick={() => excluirCliente(cliente.cpf_cliente)} className="btn-excluir">🗑️ </button>
-                </div>
-              </div>
-            ))}
-          </div>
+         <table className="tabela-clientes">
+          <thead>
+            <tr>
+              <th>CPF</th>
+              <th>Nome</th>
+              <th>Telefone</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+  <tbody>
+    {clientes.map(cliente => (
+      <tr key={cliente.cpf_cliente}>
+        <td>{formatCPF(cliente.cpf_cliente)}</td>
+        <td>{cliente.nome_cliente}</td>
+        <td>{formatTelefone(cliente.telefone)}</td>
+        <td className="acoes">
+          <button onClick={() => editarCliente(cliente)} className="btn-editar">✏️</button>
+          <button onClick={() => excluirCliente(cliente.cpf_cliente)} className="btn-excluir">🗑️</button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
         )}
       </div>
     </section>

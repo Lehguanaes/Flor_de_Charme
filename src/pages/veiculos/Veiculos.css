@@ -6,6 +6,47 @@
 }
 
 .form-veiculo {
+  position: relative; /* necessário para posicionar o ::before */
+  background: #f9f9f9;
+  padding: 25px 30px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+
+.form-veiculo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--cor-vermelho-escuro, #8B0000), #d32f2f, var(--cor-vermelho-escuro, #8B0000));
+  border-radius: 16px 16px 0 0;
+}
+
+.h2-veiculo {
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: var(--cor-vermelho-escuro, #8B0000);
+  font-size: 1.5rem;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.h2-veiculo::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: var(--cor-vermelho-escuro, #8B0000);
+  border-radius: 2px;
+}
+
+
+.form-veiculo {
   background: #f9f9f9;
   padding: 25px 30px;
   border-radius: 10px;

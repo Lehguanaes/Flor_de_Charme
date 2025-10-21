@@ -172,7 +172,6 @@ export default function Produtos() {
             onChange={e => setNovoProduto({ ...novoProduto, quantidade_produto: e.target.value })}
           />
          <div className="preco-wrapper">
-  <span>R$</span>
   <input
     type="number"
     placeholder="Preço"
@@ -201,32 +200,32 @@ export default function Produtos() {
         </div>
       </div>
 
+
       {mostrarTabela && (
-        <div className="lista-produtos">
-          {produtos.length === 0 ? (
-            <p className="sem-produtos">Nenhum produto cadastrado</p>
-          ) : (
-            <div className="tabela-produtos">
-              <div className="cabecalho-tabela">
-                <span>Descrição</span>
-                <span>Quantidade</span>
-                <span>Preço</span>
-                <span>Ações</span>
-              </div>
-              {produtos.map(produto => (
-                <div key={produto.codigo_produto} className="linha-produto">
-                  <span>{produto.descricao_produto}</span>
-                  <span>{produto.quantidade_produto}</span>
-                  <span>R$ {produto.preco_produto.toFixed(2)}</span>
-                  <div className="acoes">
-                    <button onClick={() => editarProduto(produto)} className="btn-editar">✏️ </button>
-                    <button onClick={() => excluirProduto(produto.codigo_produto)} className="btn-excluir">🗑️ </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+       <table className="tabela-produtos">
+  <thead>
+    <tr>
+      <th>Descrição</th>
+      <th>Quantidade</th>
+      <th>Preço</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {produtos.map((produto) => (
+      <tr key={produto.codigo_produto}>
+        <td>{produto.descricao_produto}</td>
+        <td>{produto.quantidade_produto}</td>
+        <td>R$ {produto.preco_produto.toFixed(2)}</td>
+        <td className="acoes">
+          <button onClick={() => editarProduto(produto)} className="btn-editar">✏️</button>
+          <button onClick={() => excluirProduto(produto.codigo_produto)} className="btn-excluir">🗑️</button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
       )}
     </section>
   );

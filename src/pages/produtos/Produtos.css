@@ -119,23 +119,18 @@
   box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.15);
 }
 
-/* Campo de preço com R$ */
 .preco-wrapper {
   position: relative;
   display: flex;
   flex-direction: column;
 }
 
-.preco-wrapper label {
-  margin-bottom: 8px;
-}
-
 .preco-wrapper::before {
   content: 'R$';
   position: absolute;
   left: 16px;
-  top: 50%;
-  transform: translateY(10%);
+  top: 39%;
+  transform: translateY(-50%);
   color: #666;
   font-weight: 600;
   font-size: 14px;
@@ -251,12 +246,67 @@
   background: white;
 }
 
-/* Tabela de produtos */
+/* ===== TABELA ===== */
+.lista-produtos {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 40px;
+}
+
 .tabela-produtos {
   width: 100%;
-  min-width: 800px;
   border-collapse: collapse;
+  min-width: 800px;
+  font-size: 0.95rem;
 }
+
+.tabela-produtos th {
+  background: linear-gradient(135deg, var(--cor-vermelho-escuro, #8B0000) 0%, #a50000 100%);
+  color: white;
+  padding: 16px 12px;
+  font-weight: 600;
+  text-align: left;
+  position: sticky;
+  top: 0;
+}
+
+.tabela-produtos td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #eaeaea;
+  background-color: #fff;
+}
+
+.tabela-produtos tr {
+  transition: background-color 0.2s ease;
+}
+
+.tabela-produtos tr:hover {
+  background-color: #f8f9fa;
+}
+
+.tabela-produtos tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.tabela-produtos tr:nth-child(even):hover {
+  background-color: #f1f3f4;
+}
+
+/* ===== DESTAQUES ===== */
+.detalhe-vermelho {
+  color: var(--cor-vermelho-escuro, #8B0000);
+  font-weight: 700;
+  font-size: 1.05em;
+}
+
+.tabela-produtos {
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+
 
 /* Cabeçalho e linhas da tabela - CORRIGIDO */
 .cabecalho-tabela,
@@ -287,12 +337,7 @@
   padding-left: 20px;
 }
 
-.cabecalho-tabela span:nth-child(2), /* Quantidade */
-.cabecalho-tabela span:nth-child(3), /* Preço */
-.cabecalho-tabela span:nth-child(4) { /* Ações */
-  text-align: center;
-  padding: 0 5px; /* Menos padding nas colunas laterais */
-}
+
 
 .linha-produto {
   border-bottom: 1px solid #eaeaea;

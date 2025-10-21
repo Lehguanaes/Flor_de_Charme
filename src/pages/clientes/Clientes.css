@@ -8,6 +8,49 @@
   color: #333;
 }
 
+.form-cliente {
+  position: relative; /* necessário para posicionar o ::before */
+  background: #f9f9f9;
+  padding: 25px 30px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+
+.form-cliente::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--cor-vermelho-escuro, #8B0000), #d32f2f, var(--cor-vermelho-escuro, #8B0000));
+  border-radius: 16px 16px 0 0;
+}
+
+
+
+
+.h2-cliente {
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: var(--cor-vermelho-escuro, #8B0000);
+  font-size: 1.5rem;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.h2-cliente::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: var(--cor-vermelho-escuro, #8B0000);
+  border-radius: 2px;
+}
+
 /* Formulário */
 .form-cliente {
   background: #f9f9f9;
@@ -92,28 +135,121 @@
   background-color: #5a6268;
 }
 
-/* Lista de clientes */
-.lista-clientes h2 {
-  margin-bottom: 15px;
-  color: var(--cor-vermelho-escuro);
-}
 
-.sem-clientes {
-  color: #777;
-  font-style: italic;
-  padding: 15px;
-  text-align: center;
-}
 
 /* Tabela clientes - grid alinhado como produtos */
-.tabela-clientes {
-  display: grid;
-  width: 100%;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-  background: #fff;
+/* ===== LISTA CLIENTES ===== */
+/* ===== TABELA CLIENTES ===== */
+.lista-clientes {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 40px;
 }
+
+.tabela-clientes {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+  font-size: 0.95rem;
+}
+
+.tabela-clientes th {
+  background: linear-gradient(135deg, var(--cor-vermelho-escuro, #8B0000) 0%, #a50000 100%);
+  color: white;
+  padding: 16px 12px;
+  font-weight: 600;
+  text-align: left;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.tabela-clientes td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #eaeaea;
+  background-color: #fff;
+}
+
+.tabela-clientes tr {
+  transition: background-color 0.2s ease;
+}
+
+.tabela-clientes tr:hover {
+  background-color: #f8f9fa;
+}
+
+.tabela-clientes tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.tabela-clientes tr:nth-child(even):hover {
+  background-color: #f1f3f4;
+}
+
+/* ===== AÇÕES ===== */
+.acoes {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-editar,
+.btn-excluir {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: transform 0.2s ease;
+}
+
+.btn-editar:hover {
+  color: #1d78cb;
+  transform: scale(1.1);
+}
+
+.btn-excluir:hover {
+  color: #d80000;
+  transform: scale(1.1);
+}
+
+/* ===== MENSAGEM SEM CLIENTES ===== */
+.sem-clientes {
+  padding: 20px;
+  text-align: center;
+  color: #777;
+  font-style: italic;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 768px) {
+  .tabela-clientes {
+    font-size: 0.9rem;
+    min-width: 700px;
+  }
+
+  .tabela-clientes th,
+  .tabela-clientes td {
+    padding: 12px 8px;
+  }
+
+  .acoes {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .btn-editar,
+  .btn-excluir {
+    font-size: 1rem;
+  }
+}
+
+/* ===== DESTAQUES ===== */
+.detalhe-vermelho {
+  color: var(--cor-vermelho-escuro, #8B0000);
+  font-weight: 700;
+  font-size: 1.05em;
+}
+
 
 /* Cabeçalho da tabela */
 .cabecalho-tabela {

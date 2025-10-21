@@ -58,54 +58,69 @@ export default function Regioes() {
     <section className="regioes">
 
       {/* Formulário para adicionar ponto estratégico */}
-      <div className="form-ponto">
-        <h2>Adicionar Ponto Estratégico</h2>
-        <div className="inputs-form">
-          <select
-            value={novoPonto.codigo_regiao}
-            onChange={(e) => setNovoPonto({ ...novoPonto, codigo_regiao: e.target.value })}
-          >
-            <option value="">Selecione a Região</option>
-            {regioes.map((r) => (
-              <option key={r.codigo_regiao} value={r.codigo_regiao}>
-                {r.nome_regiao}
-              </option>
-            ))}
-          </select>
-          <input
-            type="text"
-            placeholder="Descrição do ponto"
-            value={novoPonto.descricao_ponto}
-            onChange={(e) => setNovoPonto({ ...novoPonto, descricao_ponto: e.target.value })}
-          />
-          <button className="btn-adicionar" onClick={adicionarPonto}>Adicionar</button>
-        </div>
-      </div>
+<div className="form-ponto">
+<h2 className="h2-adicionar-ponto">Adicionar Ponto Estratégico</h2>
+  <div className="inputs-form">
+    <select
+      value={novoPonto.codigo_regiao}
+      onChange={(e) =>
+        setNovoPonto({ ...novoPonto, codigo_regiao: e.target.value })
+      }
+    >
+      <option value="">Selecione a Região</option>
+      {regioes.map((r) => (
+        <option key={r.codigo_regiao} value={r.codigo_regiao}>
+          {r.nome_regiao}
+        </option>
+      ))}
+    </select>
+
+    <input
+      type="text"
+      placeholder="Descrição do ponto"
+      value={novoPonto.descricao_ponto}
+      onChange={(e) =>
+        setNovoPonto({ ...novoPonto, descricao_ponto: e.target.value })
+      }
+    />
+
+    <button className="btn-adicionar" onClick={adicionarPonto}>
+      Adicionar
+    </button>
+  </div>
+</div>
+
 
       {/* Tabela de pontos estratégicos */}
-      <div className="lista-pontos">
-        <h2>Pontos Estratégicos</h2>
-        <div className="tabela-pontos">
-          <div className="cabecalho-tabela">
-            <span>Descrição</span>
-            <span>Região</span>
-            <span>Ações</span>
-          </div>
-          {pontos.map((p) => (
-            <div key={p.id} className="linha-ponto">
-              <span>{p.descricao_ponto}</span>
-              <span>{regioes.find((r) => r.codigo_regiao === p.codigo_regiao)?.nome_regiao}</span>
-              <div className="acoes">
-                <button className="btn-excluir" onClick={() => excluirPonto(p.id)}>🗑️</button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+     <div className="lista-pontos">
+<h2 className="h2-pontos">Pontos Estratégicos</h2>
+  <div className="tabela-wrapper">
+    <table className="tabela-pontos">
+      <thead>
+        <tr>
+          <th>Descrição</th>
+          <th>Região</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {pontos.map((p) => (
+          <tr key={p.id}>
+            <td>{p.descricao_ponto}</td>
+            <td>{regioes.find((r) => r.codigo_regiao === p.codigo_regiao)?.nome_regiao}</td>
+            <td className="acoes">
+              <button className="btn-excluir" onClick={() => excluirPonto(p.id)}>🗑️</button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
+
 
       {/* Lista de regiões com botão ver pontos */}
       <div className="lista-regioes">
-        <h2>Regiões</h2>
         {regioes.map((r) => (
           <div key={r.codigo_regiao} className="regiao-card">
             <h3>{r.nome_regiao}</h3>
