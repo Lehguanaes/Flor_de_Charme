@@ -6,11 +6,21 @@ import olhoFechado from "../../assets/mostrarSenha.png";
 import olhoAberto from "../../assets/setMostrarSenha.png";
 
 function Login({ onLogin }) {
-  const [cpf, setCpf] = useState(""); // agora só CPF
+  const [cpf, setCpf] = useState(""); // CPF com máscara
   const [senha, setSenha] = useState("");
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const navigate = useNavigate();
 
+  // 🧠 Máscara de CPF
+  const handleCpfChange = (e) => {
+    let value = e.target.value.replace(/\D/g, ""); // Remove tudo que não for número
+    value = value.replace(/(\d{3})(\d)/, "$1.$2");
+    value = value.replace(/(\d{3})(\d)/, "$1.$2");
+    value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    setCpf(value);
+  };
+
+  // ✅ Função de login (mantida)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -62,13 +72,17 @@ function Login({ onLogin }) {
     <div className="login-container">
       <h2 className="login-title">Acesso ao Sistema</h2>
       <form onSubmit={handleSubmit} className="login-form">
+        {/* Campo CPF com máscara */}
         <input
           type="text"
           placeholder="CPF"
           value={cpf}
-          onChange={(e) => setCpf(e.target.value)}
+          onChange={handleCpfChange}
+          maxLength={14}
           className="login-input"
         />
+
+        {/* Campo senha com botão mostrar/ocultar */}
         <div className="login-senha-container">
           <input
             type={mostrarSenha ? "text" : "password"}
@@ -90,6 +104,7 @@ function Login({ onLogin }) {
             />
           </button>
         </div>
+
         <button type="submit" className="login-button">
           Entrar
         </button>
