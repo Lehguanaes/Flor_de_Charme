@@ -6,21 +6,21 @@ import olhoFechado from "../../assets/mostrarSenha.png";
 import olhoAberto from "../../assets/setMostrarSenha.png";
 
 function Login({ onLogin }) {
-  const [cpf, setCpf] = useState(""); // CPF com máscara
+  const [cpf, setCpf] = useState("");
   const [senha, setSenha] = useState("");
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const navigate = useNavigate();
 
   // 🧠 Máscara de CPF
   const handleCpfChange = (e) => {
-    let value = e.target.value.replace(/\D/g, ""); // Remove tudo que não for número
+    let value = e.target.value.replace(/\D/g, ""); // remove não numéricos
     value = value.replace(/(\d{3})(\d)/, "$1.$2");
     value = value.replace(/(\d{3})(\d)/, "$1.$2");
     value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
     setCpf(value);
   };
 
-  // ✅ Função de login (mantida)
+  // ✅ Função de login
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -29,12 +29,15 @@ function Login({ onLogin }) {
       return;
     }
 
+    // Remove máscara para comparar com o banco
+    const cpfLimpo = cpf.replace(/\D/g, "");
+
     try {
       // 1️⃣ Verifica se CPF + senha existem na tabela 'conta'
       const { data: conta, error: contaError } = await supabase
         .from("conta")
         .select("*")
-        .eq("cpf_vendedor", cpf)
+        .eq("cpf_vendedor", cpfLimpo)
         .eq("senha_vendedor", senha)
         .single();
 
@@ -47,7 +50,7 @@ function Login({ onLogin }) {
       const { data: vendedor, error: vendedorError } = await supabase
         .from("vendedor")
         .select("*")
-        .eq("cpf_vendedor", cpf)
+        .eq("cpf_vendedor", cpfLimpo)
         .single();
 
       if (vendedorError || !vendedor) {
@@ -56,7 +59,7 @@ function Login({ onLogin }) {
       }
 
       // 3️⃣ Salva dados na sessão
-      sessionStorage.setItem("vendedorId", cpf);
+      sessionStorage.setItem("vendedorId", cpfLimpo);
       sessionStorage.setItem("vendedorNome", vendedor.nome_vendedor);
 
       // 4️⃣ Executa callback e navega
